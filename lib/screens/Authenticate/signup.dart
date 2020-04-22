@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/dropdown.dart';
+import 'package:prcolony/screens/Authenticate/phoneauth.dart';
 void main()
 {
   runApp(SignUp());
@@ -14,7 +15,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
- String dropdownValue = 'Please select an option';
+ String dropdownValue = 'RESIDENT';
  String holder = '' ;
   List <String> name = [
     'RESIDENT',
@@ -119,7 +120,7 @@ TextFormField(
                Text("please select an option",style: TextStyle(color :Colors.black,fontSize: 20),),
              ),
            DropdownButton<String>( 
-            value:dropdownValue,
+            value:name[0],
           
             icon: Icon(Icons.arrow_drop_down),
             iconSize: 24,
@@ -136,10 +137,10 @@ TextFormField(
                 dropdownValue = data;
               });
             },
-            items: name.map<DropdownMenuItem<String>>((String value) {
+            items: name.map<DropdownMenuItem<String>>((String value1) {
               return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
+                value: value1,
+                child: Text(value1),
               );
             }).toList(),
           ),  
@@ -150,10 +151,8 @@ RaisedButton(
               
                 child : Text("submit",style:TextStyle(color :Colors.white,fontSize: 23),
                                              
-                              ),onPressed:(){
-                  setState(() {
-                    
-                  });
+                              ),onPressed:() async {
+                                final result = await Navigator.push(context,MaterialPageRoute(builder: (context) => Phoneverificationpage()));
                 }   
                 ),
                ]
