@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/material/dropdown.dart';
+
 void main()
 {
   runApp(SignUp());
@@ -15,7 +15,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
  String dropdownValue = 'RESIDENT';
- String holder = '' ;
+/* String holder = '' ;
   List <String> name = [
     'RESIDENT',
     'VOLUNTEER'
@@ -26,7 +26,7 @@ class _SignUpState extends State<SignUp> {
     setState(() {
       holder = dropdownValue ;
     });
-  }
+  }*/
   @override
 
   Widget build(BuildContext context) {
@@ -115,10 +115,10 @@ TextFormField(
         height :20
               ),
                SizedBox(
-               child :
+                  child :
                Text("please select an option",style: TextStyle(color :Colors.black,fontSize: 20),),
              ),
-           DropdownButton<String>( 
+          /* DropdownButton<String>( 
             value:dropdownValue,
           
             icon: Icon(Icons.arrow_drop_down),
@@ -142,7 +142,35 @@ TextFormField(
                 child: Text(value),
               );
             }).toList(),
-          ),  
+          ),*/
+            DropdownButton<String>(
+    value: dropdownValue,
+    icon: Icon(Icons.arrow_downward),
+    iconSize: 24,
+    elevation: 16,
+    style: TextStyle(
+      color: Colors.black
+    ),
+    underline: Container(
+      height: 2,
+      color :Colors.grey[200],
+
+    ),
+    onChanged: (String newValue) {
+      setState(() {
+        dropdownValue = newValue;
+      });
+    },
+    items: <String>['RESIDENT', 'VOLUNTEER' ]
+      .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      })
+      .toList(),
+  ),
+
           SizedBox(height:19), 
 RaisedButton(
                 color :Colors.blue,
