@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:prcolony/screens/Authenticate/login.dart';
+import 'package:prcolony/screens/Authenticate/signup.dart';
 
 class Authenticate extends StatefulWidget {
   @override
@@ -6,10 +8,22 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
+
+  bool signed = true;
+  void toggleView() {
+    setState(() {
+      signed = !signed;
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("authenticate"),
-    );
+    if(signed)
+    {
+      return SignUp(toggleView: toggleView);
+    }
+    else
+    {
+      return Login(toggleView: toggleView);
+    }
   }
 }
