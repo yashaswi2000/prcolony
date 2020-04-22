@@ -31,7 +31,6 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return MaterialApp(
      home : Scaffold(
-      
         appBar: AppBar(
           title: const Text("Signup page",textAlign: TextAlign.center,),
           actions: <Widget>[
