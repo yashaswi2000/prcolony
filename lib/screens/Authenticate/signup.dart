@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/material/dropdown.dart';
 void main()
 {
   runApp(SignUp());
@@ -9,6 +10,19 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+ String dropdownValue = 'Please select an option';
+ String holder = '' ;
+  List <String> name = [
+    'RESIDENT',
+    'VOLUNTEER'
+    ] ;
+ 
+  void getDropDownItem(){
+ 
+    setState(() {
+      holder = dropdownValue ;
+    });
+  }
   @override
 
   Widget build(BuildContext context) {
@@ -20,13 +34,16 @@ class _SignUpState extends State<SignUp> {
         resizeToAvoidBottomPadding: false,
        body : Container(
          margin : EdgeInsets.fromLTRB(10, 20, 10, 20),
-         padding : EdgeInsets.fromLTRB(20, 10, 20, 10),
+         padding : EdgeInsets.fromLTRB(5, 2.5, 5, 2.5),
         child: SingleChildScrollView(
                   child: Column(
                children: <Widget>[
+                
 
       SizedBox(height:20),
+    
       TextFormField(
+        
   decoration: InputDecoration(
     icon :Icon(Icons.person,
     color : Colors.blue,),
@@ -89,11 +106,49 @@ TextFormField(
    keyboardType: TextInputType.number,
                 
 ),
-SizedBox(height:10),
+              SizedBox(
+        height :20
+              ),
+               SizedBox(
+               child :
+               Text("please select an option",style: TextStyle(color :Colors.black,fontSize: 20),),
+             ),
+           DropdownButton<String>(
+
+            
+        
+            value:dropdownValue,
+          
+            icon: Icon(Icons.arrow_drop_down),
+            iconSize: 24,
+            elevation: 16,
+            style: TextStyle(color: Colors.black, fontSize: 18),
+            underline: Container(
+              height: 2,
+              padding :EdgeInsets.fromLTRB(40, 20, 10, 20),
+              color :Colors.grey[300],
+              
+            ),
+            onChanged: (String data) {
+              setState(() {
+                dropdownValue = data;
+              });
+            },
+            items: name.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),  
+          SizedBox(height:19),
+            
 RaisedButton(
                 color :Colors.blue,
                 padding :EdgeInsets.fromLTRB(40, 20, 40, 20),
-                child : Text("submit",style:TextStyle(color :Colors.white),       
+              
+                child : Text("submit",style:TextStyle(color :Colors.white,fontSize: 23),
+                                             
                               ),onPressed:(){
                   setState(() {
                     

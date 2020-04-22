@@ -23,28 +23,15 @@ class _LoginState extends State<Login> {
            children: <Widget>[
              SizedBox(height:10),
       
-      TextFormField(
-  decoration: InputDecoration(
-    
-    icon :Icon(Icons.person,
-              color : Colors.blue,
-              ),
-    
-     border:OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.red,
-                              width: 5.0),
-                        ) ,
-    labelText: ' name:'
-  ),
-),
-SizedBox(
-  height:10
-),
+     
+
 TextFormField(
   decoration: InputDecoration(
+  
     icon : Icon(Icons.phone,
                  color: Colors.green,
+                 
+                 
                ),
      border:OutlineInputBorder(
                           borderSide: BorderSide(
@@ -57,8 +44,11 @@ TextFormField(
    keyboardType: TextInputType.number,
             
 ),
+SizedBox(
+  height:20
+),
 RaisedButton(
-            child : Text("login"),onPressed:null,
+            child : Text("login", style:TextStyle(color: Colors.white),),onPressed:null,
             color :Colors.blue ,   
             ),
            ]
