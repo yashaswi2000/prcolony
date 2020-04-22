@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/dropdown.dart';
 import 'package:prcolony/screens/Authenticate/phoneauth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:prcolony/services/auth.dart';
+import 'package:prcolony/models/User.dart';
 void main()
 {
   runApp(SignUp());
@@ -15,13 +18,21 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
- String dropdownValue = 'RESIDENT';
+
+  String phoneNo, verificationId, smsCode;
+  String name1;
+  String initial_name;
+  bool codeSent = false;
+  bool isUser = false;
+  bool visible = false;
+  User userData ; 
+  String dropdownValue = 'RESIDENT';
  String holder = '' ;
   List <String> name = [
     'RESIDENT',
     'VOLUNTEER'
     ] ;
- 
+ TextEditingController _phoneNumberController = TextEditingController();
   void getDropDownItem(){
  
     setState(() {
@@ -51,7 +62,7 @@ class _SignUpState extends State<SignUp> {
       SizedBox(height:20),
     
       TextFormField(
-        
+        controller: _phoneNumberController,
   decoration: InputDecoration(
     icon :Icon(Icons.person,
     color : Colors.blue,),
@@ -79,6 +90,11 @@ TextFormField(
     labelText: 'Mobile Number'
   ),
    keyboardType: TextInputType.number,
+   onChanged: (val) {
+     setState(() {
+       this.phoneNo=val;
+     });
+   },
                 
 ),
 SizedBox(height:20),
@@ -152,7 +168,8 @@ RaisedButton(
                 child : Text("submit",style:TextStyle(color :Colors.white,fontSize: 23),
                                              
                               ),onPressed:() async {
-                                final result = await Navigator.push(context,MaterialPageRoute(builder: (context) => Phoneverificationpage()));
+                                verifyPhone(this.phoneNo);
+                                final result = await Navigator.push(context,MaterialPageRoute(builder: (context) => Phoneverificationpage(verificationId:this.verificationId,phonenumber: this.phoneNo,)));
                 }   
                 ),
                ]
@@ -163,5 +180,44 @@ RaisedButton(
            
        
     ,);
+  }
+
+ Future<void> verifyPhone(phoneNo) async {
+    final PhoneVerificationCompleted verified = (AuthCredential authResult) {
+      AuthService().signIn(authResult);
+    };
+
+    final PhoneVerificationFailed verificationfailed =
+        (AuthException authException) {
+      print('${authException.message}');
+    };
+
+    final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
+      this.verificationId = verId;
+      setState(() {
+        this.codeSent = true;
+      });
+    };
+
+    final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
+      setState(() {
+        this.codeSent =  true;
+      });
+      this.verificationId = verId;
+    };
+
+    try{
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: '+91' + phoneNo,
+        timeout: const Duration(seconds: 60),
+        verificationCompleted: verified,
+        verificationFailed: verificationfailed,
+        codeSent: smsSent,
+        codeAutoRetrievalTimeout: autoTimeout);
+  }catch(e)
+    {
+      print(e.toString());
+
+    }
   }
 }
