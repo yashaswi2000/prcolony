@@ -4,6 +4,10 @@ void main()
   runApp(SignUp());
 }
 class SignUp extends StatefulWidget {
+
+  final Function toggleView;
+  SignUp({this.toggleView});
+
   @override
   _SignUpState createState() => _SignUpState();
 }
@@ -16,6 +20,9 @@ class _SignUpState extends State<SignUp> {
      home : Scaffold(
         appBar: AppBar(
           title: const Text("Signup page",textAlign: TextAlign.center,),
+          actions: <Widget>[
+            FlatButton.icon(onPressed: (){widget.toggleView();}, icon: Icon(Icons.person), label: Text("Login"))
+          ],
         ),
         resizeToAvoidBottomPadding: false,
        body : Container(

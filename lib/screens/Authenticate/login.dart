@@ -4,6 +4,10 @@ void main()
   runApp(Login());
 }
 class Login extends StatefulWidget {
+
+  final Function toggleView;
+  Login({this.toggleView});
+
   @override
   _LoginState createState() => _LoginState();
 }
@@ -16,6 +20,10 @@ class _LoginState extends State<Login> {
      home : Scaffold(
         appBar: AppBar(
           title: const Text('login page'),
+          actions: <Widget>[
+            FlatButton.icon(
+              onPressed: (){widget.toggleView();}, icon: Icon(Icons.person), label: Text("Register"))
+          ],
         ),
        body : Container(
          padding : EdgeInsets.fromLTRB(20, 30, 20, 30),
