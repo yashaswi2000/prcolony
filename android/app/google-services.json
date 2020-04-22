@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "527451239974",
+    "firebase_url": "https://project-1-96a29.firebaseio.com",
+    "project_id": "project-1-96a29",
+    "storage_bucket": "project-1-96a29.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527451239974:android:f51b85bd68e840b6ccd8e7",
+        "android_client_info": {
+          "package_name": "com.example.prcolony"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "527451239974-g6vc0m7mkmrb9akn610i2s0u26tp747e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQuZ_48ME2DnyxrP17Stf6dgqR1-J2ZBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "527451239974-g6vc0m7mkmrb9akn610i2s0u26tp747e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
