@@ -31,6 +31,7 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return MaterialApp(
      home : Scaffold(
+      
         appBar: AppBar(
           title: const Text("Signup page",textAlign: TextAlign.center,),
           actions: <Widget>[
@@ -39,6 +40,7 @@ class _SignUpState extends State<SignUp> {
         ),
         resizeToAvoidBottomPadding: false,
        body : Container(
+         width :MediaQuery.of(context).size.width,
          margin : EdgeInsets.fromLTRB(10, 20, 10, 20),
          padding : EdgeInsets.fromLTRB(5, 2.5, 5, 2.5),
         child: SingleChildScrollView(
@@ -150,10 +152,11 @@ TextFormField(
     iconSize: 24,
     elevation: 16,
     style: TextStyle(
-      color: Colors.black
+      color: Colors.black,
+      fontSize: 18,
     ),
     underline: Container(
-      height: 2,
+      height: 3,
       color :Colors.grey[200],
 
     ),
@@ -171,7 +174,6 @@ TextFormField(
       })
       .toList(),
   ),
-
           SizedBox(height:19), 
 RaisedButton(
                 color :Colors.blue,
