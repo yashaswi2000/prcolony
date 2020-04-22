@@ -83,7 +83,6 @@ TextFormField(
                                     color: Colors.red,
                                     width: 5.0),
                               ) ,
-   
   labelText: 'Street No'
   ),
    keyboardType: TextInputType.number,
@@ -99,8 +98,7 @@ TextFormField(
                                 borderSide: BorderSide(
                                     color: Colors.red,
                                     width: 5.0),
-                              ) ,
-    
+                              ) , 
   labelText: 'Plot No'
   ),
    keyboardType: TextInputType.number,
@@ -113,10 +111,7 @@ TextFormField(
                child :
                Text("please select an option",style: TextStyle(color :Colors.black,fontSize: 20),),
              ),
-           DropdownButton<String>(
-
-            
-        
+           DropdownButton<String>( 
             value:dropdownValue,
           
             icon: Icon(Icons.arrow_drop_down),
@@ -141,8 +136,7 @@ TextFormField(
               );
             }).toList(),
           ),  
-          SizedBox(height:19),
-            
+          SizedBox(height:19), 
 RaisedButton(
                 color :Colors.blue,
                 padding :EdgeInsets.fromLTRB(40, 20, 40, 20),
