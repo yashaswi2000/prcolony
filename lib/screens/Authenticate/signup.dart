@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 void main()
 {
   runApp(SignUp());
@@ -120,6 +119,8 @@ TextFormField(
              ),
           /* DropdownButton<String>( 
             value:dropdownValue,
+           DropdownButton<String>( 
+            value:name[0],
           
             icon: Icon(Icons.arrow_drop_down),
             iconSize: 24,
@@ -136,16 +137,16 @@ TextFormField(
                 dropdownValue = data;
               });
             },
-            items: name.map<DropdownMenuItem<String>>((String value) {
+            items: name.map<DropdownMenuItem<String>>((String value1) {
               return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
+                value: value1,
+                child: Text(value1),
               );
             }).toList(),
           ),*/
             DropdownButton<String>(
     value: dropdownValue,
-    icon: Icon(Icons.arrow_downward),
+    icon: Icon(Icons.arrow_drop_down),
     iconSize: 24,
     elevation: 16,
     style: TextStyle(
@@ -178,10 +179,8 @@ RaisedButton(
               
                 child : Text("submit",style:TextStyle(color :Colors.white,fontSize: 23),
                                              
-                              ),onPressed:(){
-                  setState(() {
-                    
-                  });
+                              ),onPressed:() async {
+                               // final result = await Navigator.push(context,MaterialPageRoute(builder: (context) => Phoneverificationpage()));
                 }   
                 ),
                ]
