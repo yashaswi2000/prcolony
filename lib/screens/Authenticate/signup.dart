@@ -14,7 +14,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
- String dropdownValue = 'Please select an option';
+ String dropdownValue = 'RESIDENT';
  String holder = '' ;
   List <String> name = [
     'RESIDENT',
