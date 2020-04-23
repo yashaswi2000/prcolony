@@ -24,12 +24,7 @@ class _GrossListState extends State<GrossList> {
           onDismissed: (direction) {
               //deleteFromList(s);
     },
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(gross[index].username),
-            ),
-          ),
-          //GrossCard(gross: gross[index])
+          child: GrossCard(gross: gross[index])
           );
       },
       );

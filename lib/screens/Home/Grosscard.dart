@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prcolony/models/gross.dart';
+import 'package:prcolony/screens/Home/expandlist.dart';
 
 class GrossCard extends StatelessWidget {
 
@@ -15,6 +16,9 @@ class GrossCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Expand(gross: gross)));
+            },
             leading: Icon(Icons.shopping_cart),
             title: Text("${gross.username} ,${gross.road},${gross.plot}."),
             subtitle: Text(gross.name,
