@@ -19,18 +19,25 @@ class _LoginState extends State<Login> {
     return MaterialApp(
      home : Scaffold(
         appBar: AppBar(
-          title: const Text('login page'),
+          title: const Text('login page', style: TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+
           actions: <Widget>[
             FlatButton.icon(
               onPressed: (){widget.toggleView();}, icon: Icon(Icons.person), label: Text("Register"))
           ],
         ),
+       
        body :   Container(
-        
          padding : EdgeInsets.fromLTRB(20, 30, 20, 30),
          child : Column(
+           
            children: <Widget>[
              SizedBox(height:10),
+              SizedBox(
+                height :150,
+           child :
+            Image.asset('assets/images/user.png'),
+         ),
 TextFormField(
   decoration: InputDecoration(
     icon : Icon(Icons.phone,
@@ -52,7 +59,7 @@ SizedBox(
 ),
 RaisedButton(
     color :Colors.blue,
-            child : Text("login",style: TextStyle(color: Colors.white),),onPressed:(){
+            child : Text("login",style: TextStyle(color: Colors.white,fontSize: 18),),onPressed:(){
               setState(() {
                 
               });
