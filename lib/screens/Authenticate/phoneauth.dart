@@ -152,10 +152,12 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
                                     setState(() {
                                         error=false;
                                     });
+                                    if(widget.road!='')
+                                    {
                                     String uid1 = result.user.uid;
                                   DatabaseService data = DatabaseService(uid: uid1);
                                   bool res = await data.UpdateUserDetails(widget.name, widget.phonenumber, widget.road, widget.plot, widget.cat);
-
+                                    }
                                     //Navigator.pop(context,result.user);
                                   }
                                   else

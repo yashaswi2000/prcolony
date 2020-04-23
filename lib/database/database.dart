@@ -9,7 +9,23 @@ class DatabaseService {
   DatabaseService({this.uid});
 
   final CollectionReference UsersCollection = Firestore.instance.collection('Users');
+  final CollectionReference Grosslistcollection = Firestore.instance.collection('Gross');
 
+
+  Future UpdateGrosscollection(String name) async {
+    try{
+      await Grosslistcollection.document().setData({
+        'uid' :uid,
+        'name':name,
+      });
+      return true;
+    }
+    catch(e)
+    {
+        print(e.toString());
+      return false;
+    }
+  }
 
 
   Future UpdateUsersCollection(String name, String phonenumber) async {
@@ -59,6 +75,11 @@ class DatabaseService {
       plot: snapshot.data["plot"],
       cat: snapshot.data["cat"],
     );
+  }
+
+
+  Stream<QuerySnapshot> get require {
+    return Grosslistcollection.snapshots();
   }
 
 

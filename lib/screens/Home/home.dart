@@ -1,11 +1,50 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:prcolony/database/database.dart';
+import 'package:prcolony/screens/Home/gross.dart';
 import 'package:prcolony/services/auth.dart';
+import 'package:provider/provider.dart';
+import 'package:prcolony/models/User.dart';
+import 'package:prcolony/models/UserData.dart';
 
 class Home extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(actions: <Widget>[IconButton(icon: Icon(Icons.highlight_off), onPressed: () async{ await AuthService().signOut();})],),
+    final user = Provider.of<User>(context);
+
+    return   StreamProvider<QuerySnapshot>.value(
+          value: DatabaseService().require,
+          child: StreamBuilder<UserData>(
+                    stream: DatabaseService(uid: user.uid).userData,
+                    builder: (context,snapshot) {
+                       UserData userData = snapshot.data;
+                       print(userData.name);
+                       if(userData.cat=='RESIDENT')
+                       {
+                            return  Scaffold(
+                              appBar: AppBar(
+                                                title: Text("Welcome ${userData.name}"),
+                                                actions: <Widget>[IconButton(icon: Icon(Icons.highlight_off), onPressed: () async{ await AuthService().signOut();})],
+                                            ),
+                                body: Grossdata(user:user),
+                                    );
+                       }
+                       else
+                       {
+                           return  Scaffold(
+                              appBar: AppBar(
+                                                title: Text("Welcome ${userData.name}"),
+                                                actions: <Widget>[IconButton(icon: Icon(Icons.highlight_off), onPressed: () async{ await AuthService().signOut();})],
+                                            ),
+                              body: Center(
+                                child: Text("logged in as volunteer"), 
+                              ),
+
+                                    );
+                       }
+        }
+          ),
     );
   }
 }
