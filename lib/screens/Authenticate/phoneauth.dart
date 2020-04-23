@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:prcolony/Shared/loading.dart';
+import 'package:prcolony/database/database.dart';
 import 'package:prcolony/screens/Home/home.dart';
 import 'package:prcolony/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,7 +24,8 @@ class Phoneverificationpage extends StatefulWidget {
 }
 
 class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
- 
+
+  bool loading = false;
   String code = "";
   String errormessage = "";
     final AuthService _auth = AuthService();
@@ -32,7 +35,7 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: ConstrainedBox(
@@ -133,7 +136,9 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
                     onPressed:()async{
                       if(code.isNotEmpty && code.length==6){
                             //AuthService().signInWithOTP(code, widget.verificationId,widget.phonenumber,'ass');
-                        
+                          setState(() {
+                            loading=true;
+                          });
                            AuthCredential authCreds = PhoneAuthProvider.getCredential(
                                             verificationId: widget.verificationId,
                                             smsCode: code);
@@ -147,7 +152,11 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
                                     setState(() {
                                         error=false;
                                     });
-                                    Navigator.pop(context,result.user);
+                                    String uid1 = result.user.uid;
+                                  DatabaseService data = DatabaseService(uid: uid1);
+                                  bool res = await data.UpdateUserDetails(widget.name, widget.phonenumber, widget.road, widget.plot, widget.cat);
+                                  
+                                    //Navigator.pop(context,result.user);
                                   }
                                   else
                                   {
@@ -155,8 +164,12 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
                                     setState(() {
                                         error=true;
                                     });
-                                      Navigator.pop(context,null);
+                                      //Navigator.pop(context,null);
                                   }
+                                  setState(() {
+                                    loading=false;
+                                  });
+                                  Navigator.pop(context);
                       }
                     
                     },

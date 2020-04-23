@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/dropdown.dart';
+import 'package:prcolony/Shared/loading.dart';
 import 'package:prcolony/screens/Authenticate/phoneauth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:prcolony/services/auth.dart';
@@ -19,6 +20,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
 
+  bool loading = false;
   String phoneNo; 
  static String verificationId, smsCode;
   String plot,road;
@@ -44,7 +46,7 @@ class _SignUpState extends State<SignUp> {
   @override
 
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return loading ? Loading() : MaterialApp(
      home : Scaffold(
         appBar: AppBar(
           title: const Text("Signup page",textAlign: TextAlign.center,),
@@ -183,6 +185,9 @@ RaisedButton(
                 child : Text("submit",style:TextStyle(color :Colors.white,fontSize: 23),
                                              
                               ),onPressed:() async {
+                                setState(() {
+                                  loading = true;
+                                });
                                await verifyPhone(this.phoneNo);
                                 print(_SignUpState.verificationId.toString());
                                
@@ -213,7 +218,9 @@ RaisedButton(
       _SignUpState.verificationId = verId;
       setState(() {
         this.codeSent = true;
+        this.loading=false;
       });
+
        final result = await Navigator.push(context,MaterialPageRoute(builder: (context) => Phoneverificationpage(
          sent:this.codeSent,
          verificationId:_SignUpState.verificationId.toString(),
