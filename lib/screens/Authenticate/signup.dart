@@ -80,9 +80,6 @@ TextEditingController _phoneNumberController = TextEditingController();
          ),
     
       TextFormField(
-          
-        
-        
         controller: _phoneNumberController,
   decoration: InputDecoration(
     icon :Icon(Icons.person,
@@ -100,7 +97,12 @@ TextEditingController _phoneNumberController = TextEditingController();
     if(value.isEmpty){
       return "Name is required";
     }
-  }
+  },
+  onChanged: (val){
+    setState(() {
+      this.name1=val;
+    });
+  },
 ),
 SizedBox(height:20),
 TextFormField(
@@ -145,8 +147,12 @@ TextFormField(
     if(value.isEmpty){
       return "Street No is required";
     }
-  }
-                
+  },
+    onChanged: (val){
+      setState(() {
+        this.road=val;
+      });
+    },            
 ),
 SizedBox(height:20),
 TextFormField(
@@ -166,8 +172,12 @@ TextFormField(
     if(value.isEmpty){
       return "Plot No is required";
     }
-  }
-                
+  },
+    onChanged: (val){
+      setState(() {
+        this.plot=val;
+      });
+    },            
 ),
               SizedBox(
         height :20
@@ -213,12 +223,14 @@ RaisedButton(
                 child : Text("submit",style:TextStyle(color :Colors.white,fontSize: 23),
                                              
                               ),onPressed:() async {
+                                if(!_formKey.currentState.validate()){
+                                    return;
+                                }
                                 setState(() {
                                   loading = true;
                                 });
                                await verifyPhone(this.phoneNo);
                                 print(this.verificationId.toString());
-                               
                                 
                 }   
                 ),
