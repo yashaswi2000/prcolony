@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prcolony/database/database.dart';
+import 'package:prcolony/models/UserData.dart';
 import 'package:provider/provider.dart';
 import 'package:prcolony/models/User.dart';
 
@@ -44,7 +45,8 @@ class _GrossdataState extends State<Grossdata> {
                   {
                       print(widget.user.uid);
                       DatabaseService data  =  DatabaseService(uid: widget.user.uid);
-                      dynamic res = await data.UpdateGrosscollection(this.listdata);
+                      UserData use1 = await data.getuserdocument();
+                      dynamic res = await data.UpdateGrosscollection(this.listdata,use1.name,use1.street,use1.plot);
                       if(res)
                       {
                         print("sucess");
