@@ -19,7 +19,8 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
 
-  String phoneNo, verificationId, smsCode;
+  String phoneNo; 
+ static String verificationId, smsCode;
   String name1;
   String initial_name;
   bool codeSent = false;
@@ -168,8 +169,10 @@ RaisedButton(
                 child : Text("submit",style:TextStyle(color :Colors.white,fontSize: 23),
                                              
                               ),onPressed:() async {
-                                verifyPhone(this.phoneNo);
-                                final result = await Navigator.push(context,MaterialPageRoute(builder: (context) => Phoneverificationpage(verificationId:this.verificationId,phonenumber: this.phoneNo,)));
+                               await verifyPhone(this.phoneNo);
+                                print(_SignUpState.verificationId.toString());
+                               
+                                
                 }   
                 ),
                ]
@@ -192,18 +195,19 @@ RaisedButton(
       print('${authException.message}');
     };
 
-    final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
-      this.verificationId = verId;
+    final PhoneCodeSent smsSent = (String verId, [int forceResend]) async {
+      _SignUpState.verificationId = verId;
       setState(() {
         this.codeSent = true;
       });
+       final result = await Navigator.push(context,MaterialPageRoute(builder: (context) => Phoneverificationpage(sent:this.codeSent,verificationId:_SignUpState.verificationId.toString(),phonenumber: this.phoneNo,)));
     };
 
     final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
       setState(() {
         this.codeSent =  true;
       });
-      this.verificationId = verId;
+      _SignUpState.verificationId = verId;
     };
 
     try{

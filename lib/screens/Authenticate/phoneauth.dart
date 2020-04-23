@@ -8,9 +8,10 @@ import 'package:prcolony/models/User.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 class Phoneverificationpage extends StatefulWidget {
-  final String verificationId;
-  final String phonenumber;
-  const Phoneverificationpage({Key key, this.verificationId, this.phonenumber}) : super(key: key);
+   String verificationId;
+   String phonenumber;
+   bool sent;
+   Phoneverificationpage({Key key, this.sent, this.verificationId, this.phonenumber}) : super(key: key);
 
   
   @override
@@ -130,9 +131,12 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
                     onPressed:()async{
                       if(code.isNotEmpty && code.length==6){
                             //AuthService().signInWithOTP(code, widget.verificationId,widget.phonenumber,'ass');
+                        
                            AuthCredential authCreds = PhoneAuthProvider.getCredential(
                                             verificationId: widget.verificationId,
                                             smsCode: code);
+                                            print(widget.verificationId.toString());
+                                            //print(authCreds);
                                   AuthResult result =  await FirebaseAuth.instance.signInWithCredential(authCreds);
                                   print(result);
                                   if(result.user!=null)
@@ -152,6 +156,7 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
                                       Navigator.pop(context,null);
                                   }
                       }
+                    
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(left:10.0,right: 10),
