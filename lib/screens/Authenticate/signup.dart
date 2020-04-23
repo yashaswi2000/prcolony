@@ -4,12 +4,13 @@ import 'package:prcolony/screens/Authenticate/phoneauth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:prcolony/services/auth.dart';
 import 'package:prcolony/models/User.dart';
+import 'package:validators/validators.dart' as validator;
 void main()
 {
   runApp(SignUp());
 }
 class SignUp extends StatefulWidget {
-
+ 
   final Function toggleView;
   SignUp({this.toggleView});
 
@@ -19,31 +20,43 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
 
- /* String phoneNo, verificationId, smsCode;
+  String phoneNo, verificationId, smsCode;
   String name1;
   String initial_name;
   bool codeSent = false;
   bool isUser = false;
   bool visible = false;
-  User userData ; */
+  User userData ; 
   String dropdownValue = 'RESIDENT';
+  String validator(String value){
+     if(value.isEmpty)
+     {
+       return "enter your name";
+     }
+     return null;
+  }
+  final _formKey=GlobalKey<FormState>[];
+  
  
-/* TextEditingController _phoneNumberController = TextEditingController();
+TextEditingController _phoneNumberController = TextEditingController();
   void getDropDownItem(){
  
   
-  }*/
+  }
   @override
 
   Widget build(BuildContext context) {
     return MaterialApp(
      home : Scaffold(
+      // var screenWidth = MediaQuery.of(context).size.width;
+//var screenHeight = MediaQuery.of(context).size.height;
         appBar: AppBar(
           title:  Text("Signup page",style: TextStyle(fontWeight:FontWeight.bold, ),textAlign:TextAlign.center,),
           actions: <Widget>[
             FlatButton.icon(onPressed: (){widget.toggleView();}, icon: Icon(Icons.person), label: Text("Login"))
           ],
         ),
+       
         resizeToAvoidBottomPadding: false,
        body : Container(
         
@@ -51,7 +64,10 @@ class _SignUpState extends State<SignUp> {
          margin : EdgeInsets.fromLTRB(10, 20, 10, 20),
          padding : EdgeInsets.fromLTRB(5, 2.5, 5, 2.5),
         child: SingleChildScrollView(
-                  child: Column(
+                 child : Form(
+                   
+                   key :_formKey,
+                                      child: Column(
                children: <Widget>[
         SizedBox(
                 height :120,
@@ -60,18 +76,19 @@ class _SignUpState extends State<SignUp> {
          ),
     
       TextFormField(
+          
         
         
-     //   controller: _phoneNumberController,
+        controller: _phoneNumberController,
   decoration: InputDecoration(
     icon :Icon(Icons.person,
     color : Colors.blue,),
      border:OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.red,
-                                    
-                                    width: 5.0),
-                              ) ,
+                                  borderSide: BorderSide(
+                                      color: Colors.red,
+                                      
+                                      width: 5.0),
+                                ) ,
    
     labelText: 'Enter your name:'
   ),
@@ -82,17 +99,17 @@ TextFormField(
     icon : Icon(Icons.phone,
     color : Colors.green,),
      border:OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 5.0),
-                              ) ,
+                                  borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 5.0),
+                                ) ,
    
     labelText: 'Mobile Number'
   ),
    keyboardType: TextInputType.number,
    onChanged: (val) {
      setState(() {
-       //this.phoneNo=val;
+      this.phoneNo=val;
      });
    },
                 
@@ -103,10 +120,10 @@ TextFormField(
     icon :Icon(Icons.streetview,
     color : Colors.black,),
      border:OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 5.0),
-                              ) ,
+                                  borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 5.0),
+                                ) ,
   labelText: 'Street No'
   ),
    keyboardType: TextInputType.number,
@@ -116,13 +133,13 @@ SizedBox(height:20),
 TextFormField(
   decoration: InputDecoration(
     icon : Icon(Icons.home,
-                  color : Colors.red,
-                  ),
+                    color : Colors.red,
+                    ),
      border:OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 5.0),
-                              ) , 
+                                  borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 5.0),
+                                ) , 
   labelText: 'Plot No'
   ),
    keyboardType: TextInputType.number,
@@ -132,7 +149,7 @@ TextFormField(
         height :20
               ),
                SizedBox(
-                  child :
+                    child :
                Text("please select an option",style: TextStyle(color :Colors.black,fontSize: 20),),
              ),
          
@@ -170,9 +187,11 @@ RaisedButton(
                padding : EdgeInsets.fromLTRB(30, 15, 30, 15),
               
                 child : Text("submit",style:TextStyle(color :Colors.white,fontSize: 18)                     
-                           ),onPressed:() async {
-                               // verifyPhone(this.phoneNo);
-                               // final result = await Navigator.push(context,MaterialPageRoute(builder: (context) => Phoneverificationpage(verificationId:this.verificationId,phonenumber: this.phoneNo,)));
+                             ),onPressed:() async {
+                               if(_formKey.changeState()){}
+                             
+                                  verifyPhone(this.phoneNo);
+                                  final result = await Navigator.push(context,MaterialPageRoute(builder: (context) => Phoneverificationpage(verificationId:this.verificationId,phonenumber: this.phoneNo,)));
                 } ,
                 elevation: 5,
                shape :new RoundedRectangleBorder(
@@ -181,6 +200,7 @@ RaisedButton(
                 ),
                ]
           ),
+                  ),
         ),
                     ),
          )
@@ -200,17 +220,17 @@ RaisedButton(
     };
 
     final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
-    //  this.verificationId = verId;
+      this.verificationId = verId;
       setState(() {
-      //  this.codeSent = true;
+        this.codeSent = true;
       });
     };
 
     final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
       setState(() {
-      //  this.codeSent =  true;
+       this.codeSent =  true;
       });
-    //  this.verificationId = verId;
+      this.verificationId = verId;
     };
 
     try{

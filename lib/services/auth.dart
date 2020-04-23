@@ -14,6 +14,15 @@ class AuthService {
     return auth.onAuthStateChanged.map((FirebaseUser user) => _userFromFirebaseUser(user));
   }
 
+   Future signOut() async{
+    try {
+      return await auth.signOut();
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
   signIn(AuthCredential authCreds) {
     auth.signInWithCredential(authCreds);
   }
