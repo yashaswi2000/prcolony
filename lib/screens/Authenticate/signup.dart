@@ -35,8 +35,8 @@ class _SignUpState extends State<SignUp> {
      }
      return null;
   }
-  final _formKey=GlobalKey<FormState>[];
-  
+  final GlobalKey<FormState>_formKey=GlobalKey<FormState>();
+ 
  
 TextEditingController _phoneNumberController = TextEditingController();
   void getDropDownItem(){
@@ -66,7 +66,7 @@ TextEditingController _phoneNumberController = TextEditingController();
         child: SingleChildScrollView(
                  child : Form(
                    
-                   key :_formKey,
+                  key :_formKey,
                                       child: Column(
                children: <Widget>[
         SizedBox(
@@ -92,6 +92,11 @@ TextEditingController _phoneNumberController = TextEditingController();
    
     labelText: 'Enter your name:'
   ),
+  validator :(String value){
+    if(value.isEmpty){
+      return "Name is required";
+    }
+  }
 ),
 SizedBox(height:20),
 TextFormField(
@@ -107,6 +112,11 @@ TextFormField(
     labelText: 'Mobile Number'
   ),
    keyboardType: TextInputType.number,
+   validator :(String value){
+    if(value.isEmpty){
+      return "Mobile Number is required";
+    }
+  },
    onChanged: (val) {
      setState(() {
       this.phoneNo=val;
@@ -127,6 +137,11 @@ TextFormField(
   labelText: 'Street No'
   ),
    keyboardType: TextInputType.number,
+   validator :(String value){
+    if(value.isEmpty){
+      return "Street No is required";
+    }
+  }
                 
 ),
 SizedBox(height:20),
@@ -143,6 +158,11 @@ TextFormField(
   labelText: 'Plot No'
   ),
    keyboardType: TextInputType.number,
+   validator :(String value){
+    if(value.isEmpty){
+      return "Plot No is required";
+    }
+  }
                 
 ),
               SizedBox(
@@ -188,7 +208,9 @@ RaisedButton(
               
                 child : Text("submit",style:TextStyle(color :Colors.white,fontSize: 18)                     
                              ),onPressed:() async {
-                               if(_formKey.changeState()){}
+                               if(!_formKey.currentState.validate()){
+                                 return ;
+                               }
                              
                                   verifyPhone(this.phoneNo);
                                   final result = await Navigator.push(context,MaterialPageRoute(builder: (context) => Phoneverificationpage(verificationId:this.verificationId,phonenumber: this.phoneNo,)));
