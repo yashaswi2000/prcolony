@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:prcolony/screens/Home/home.dart';
 import 'package:prcolony/services/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:prcolony/models/User.dart';
+
 
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 class Phoneverificationpage extends StatefulWidget {
   final String verificationId;
   final String phonenumber;
-
   const Phoneverificationpage({Key key, this.verificationId, this.phonenumber}) : super(key: key);
 
   
@@ -88,9 +90,9 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
                   hasTextBorderColor: Colors.green,
                   highlight: true,
                   pinBoxColor: Colors.grey[800],
-                  maxLength: 5,
-                  pinBoxWidth:55,
-                  pinBoxHeight: 55,
+                  maxLength: 6,
+                  pinBoxWidth:40,
+                  pinBoxHeight: 40,
                   pinBoxDecoration:
                       ProvidedPinBoxDecoration.roundedPinBoxDecoration,
                   wrapAlignment: WrapAlignment.center,
@@ -126,18 +128,29 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
                 FlatButton(
                     
                     onPressed:()async{
-                      if(code.isNotEmpty && code.length==5){
+                      if(code.isNotEmpty && code.length==6){
                             //AuthService().signInWithOTP(code, widget.verificationId,widget.phonenumber,'ass');
-                           
-                             
-                           
-                           
-                        print("ass");
-                        setState(() {
-                          error=false;
-                        });
-
-                        Navigator.pop(context,"yes");
+                           AuthCredential authCreds = PhoneAuthProvider.getCredential(
+                                            verificationId: widget.verificationId,
+                                            smsCode: code);
+                                  AuthResult result =  await FirebaseAuth.instance.signInWithCredential(authCreds);
+                                  print(result);
+                                  if(result.user!=null)
+                                  {
+                                    print("ass");
+                                    setState(() {
+                                        error=false;
+                                    });
+                                    Navigator.pop(context,result.user);
+                                  }
+                                  else
+                                  {
+                                      print("boo");
+                                    setState(() {
+                                        error=true;
+                                    });
+                                      Navigator.pop(context,null);
+                                  }
                       }
                     },
                     child: Padding(
@@ -159,4 +172,11 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
       ),
     );
   }
+
+
+
+
+
+
+
 }
