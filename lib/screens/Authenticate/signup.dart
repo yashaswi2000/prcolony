@@ -21,6 +21,7 @@ class _SignUpState extends State<SignUp> {
 
   String phoneNo; 
  static String verificationId, smsCode;
+  String plot,road;
   String name1;
   String initial_name;
   bool codeSent = false;
@@ -76,6 +77,11 @@ class _SignUpState extends State<SignUp> {
    
     labelText: 'Enter your name:'
   ),
+  onChanged: (val){
+    setState(() {
+      this.name1=val;
+    });
+  },
 ),
 SizedBox(height:20),
 TextFormField(
@@ -111,7 +117,11 @@ TextFormField(
   labelText: 'Street No'
   ),
    keyboardType: TextInputType.number,
-                
+   onChanged: (val){
+     setState(() {
+       this.road=val;
+     });
+   }, 
 ),
 SizedBox(height:20),
 TextFormField(
@@ -127,7 +137,11 @@ TextFormField(
   labelText: 'Plot No'
   ),
    keyboardType: TextInputType.number,
-                
+   onChanged: (val){
+     setState(() {
+       this.plot=val;
+     });
+   },             
 ),
               SizedBox(
         height :20
@@ -200,7 +214,15 @@ RaisedButton(
       setState(() {
         this.codeSent = true;
       });
-       final result = await Navigator.push(context,MaterialPageRoute(builder: (context) => Phoneverificationpage(sent:this.codeSent,verificationId:_SignUpState.verificationId.toString(),phonenumber: this.phoneNo,)));
+       final result = await Navigator.push(context,MaterialPageRoute(builder: (context) => Phoneverificationpage(
+         sent:this.codeSent,
+         verificationId:_SignUpState.verificationId.toString(),
+         phonenumber: this.phoneNo,
+         name: this.name1,
+         plot: this.plot,
+         road: this.road,
+         cat: this.dropdownValue
+         )));
     };
 
     final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {

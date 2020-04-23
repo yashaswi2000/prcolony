@@ -11,7 +11,9 @@ class Phoneverificationpage extends StatefulWidget {
    String verificationId;
    String phonenumber;
    bool sent;
-   Phoneverificationpage({Key key, this.sent, this.verificationId, this.phonenumber}) : super(key: key);
+   String name;
+   String plot,road,cat;
+   Phoneverificationpage({Key key, this.sent, this.verificationId, this.phonenumber, this.name, this.plot, this.road, this.cat}) : super(key: key);
 
   
   @override
