@@ -36,7 +36,7 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return loading ? Loading() : Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: ConstrainedBox(
           constraints:
@@ -52,7 +52,7 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
                       child: Text(
                         'SMS Verification',
                         style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 25),
                       ),
@@ -74,15 +74,15 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
                           Expanded(child: RichText(text: TextSpan(children: [
                             TextSpan(
                               text:"Please enter the ",
-                              style:TextStyle(color:Colors.white)
+                              style:TextStyle(color:Colors.black)
                             ),
                             TextSpan(
                               text:"One Time Password ",
-                              style:TextStyle(color:Colors.white)
+                              style:TextStyle(color:Colors.black)
                             ),
                             TextSpan(
                               text:"Sent to ${widget.phonenumber}",
-                              style:TextStyle(color:Colors.white)
+                              style:TextStyle(color:Colors.black)
                             ),
                           ]),))
                         ],
@@ -92,10 +92,10 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
                 ),
                 SizedBox(height: 50),
                 PinCodeTextField(
-                  pinTextStyle: TextStyle(color: Colors.white),
+                  pinTextStyle: TextStyle(color: Colors.black),
                   hasTextBorderColor: Colors.green,
                   highlight: true,
-                  pinBoxColor: Colors.grey[800],
+                  pinBoxColor: Colors.white,
                   maxLength: 6,
                   pinBoxWidth:40,
                   pinBoxHeight: 40,
@@ -155,7 +155,7 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
                                     String uid1 = result.user.uid;
                                   DatabaseService data = DatabaseService(uid: uid1);
                                   bool res = await data.UpdateUserDetails(widget.name, widget.phonenumber, widget.road, widget.plot, widget.cat);
-                                  
+
                                     //Navigator.pop(context,result.user);
                                   }
                                   else
@@ -182,7 +182,7 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
                           color: Colors.blue,
                           borderRadius: BorderRadius.circular(30)
                         ),
-                        child: Center(child: Text('Done',style: TextStyle(color: Colors.white,fontSize: 20),),),
+                        child: Center(child: Text('Done',style: TextStyle(color: Colors.black,fontSize: 20),),),
                       ),
                     ))
               ],
