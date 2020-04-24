@@ -2,6 +2,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:prcolony/models/UserData.dart';
+import 'package:prcolony/models/gross.dart';
+import 'package:prcolony/screens/Home/grosslist.dart';
 
 class DatabaseService {
   final String uid;
@@ -9,7 +11,26 @@ class DatabaseService {
   DatabaseService({this.uid});
 
   final CollectionReference UsersCollection = Firestore.instance.collection('Users');
+  final CollectionReference Grosslistcollection = Firestore.instance.collection('Gross');
 
+
+  Future UpdateGrosscollection(String name,String username,String street,String plot) async {
+    try{
+      await Grosslistcollection.document().setData({
+        'uid' :uid,
+        'name':name,
+        'username':username,
+        'street':street,
+        'plot':plot,
+      });
+      return true;
+    }
+    catch(e)
+    {
+        print(e.toString());
+      return false;
+    }
+  }
 
 
   Future UpdateUsersCollection(String name, String phonenumber) async {
@@ -62,6 +83,9 @@ class DatabaseService {
   }
 
 
+ 
+
+
   //collection stream
   Stream<UserData> get userData {
     return UsersCollection.document(uid).snapshots().map(_userDataFromSnapShot);
@@ -87,6 +111,22 @@ class DatabaseService {
       
 
     );
+  }
+
+  List<Gross> _grosslist(QuerySnapshot snapshot)
+  {
+    return snapshot.documents.map((doc){
+      return Gross(
+        name: doc.data['name'] ?? '',
+        username: doc.data['username'] ?? '',
+        road: doc.data['street'] ?? '',
+        plot: doc.data['plot'] ?? '',
+      );
+    }).toList();
+  }
+
+   Stream<List<Gross>> get require {
+    return Grosslistcollection.snapshots().map(_grosslist);
   }
 
   
