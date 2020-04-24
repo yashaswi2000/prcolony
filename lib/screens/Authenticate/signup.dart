@@ -362,13 +362,8 @@ final ScrollController _scrollController = ScrollController();
                     padding :EdgeInsets.fromLTRB(5, 2.5, 5, 2.5),
                     margin :EdgeInsets.fromLTRB(200, 15, 200, 0),
                                       child: Form(
-                      key: _formKey,
-
-                    
-                        child: Container(
-                          width :MediaQuery.of(context).size.width,
-                          height :MediaQuery.of(context).size.height*0.1,
-                                                  child: Column(
+                                key:_formKey,
+                                child: Column(
                           
                       
                             children: <Widget>[
@@ -603,7 +598,7 @@ final ScrollController _scrollController = ScrollController();
                                   }),
                             ),
                           ]),
-                        ),
+                        
                       ),
                   ),
                   ),

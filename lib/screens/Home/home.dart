@@ -1,50 +1,59 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:prcolony/Shared/loading.dart';
 import 'package:prcolony/database/database.dart';
+import 'package:prcolony/screens/Authenticate/signup.dart';
 import 'package:prcolony/screens/Home/gross.dart';
 import 'package:prcolony/screens/Home/grosslist.dart';
+import 'package:prcolony/screens/Home/resident.dart';
+import 'package:prcolony/screens/Home/volunteer.dart';
 import 'package:prcolony/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:prcolony/models/User.dart';
 import 'package:prcolony/models/UserData.dart';
 import 'package:prcolony/models/gross.dart';
 
-class Home extends StatelessWidget {
-  
+class Home extends StatefulWidget {
+
+  @override
+  _HomeState createState() => _HomeState();
+
+}
+
+class _HomeState extends State<Home> {
+
+   bool signed = true;
+    void toggleView() {
+    setState(() {
+      signed = !signed;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-
-    return   StreamProvider<List<Gross>>.value(
-          value: DatabaseService().require,
-          child: StreamBuilder<UserData>(
-                    stream: DatabaseService(uid: user.uid).userData,
-                    builder: (context,snapshot) {
-                       UserData userData = snapshot.data;
-                       print(userData.name);
-                       if(userData.cat=='RESIDENT')
-                       {
-                            return  Scaffold(
-                              appBar: AppBar(
-                                                title: Text("Welcome ${userData.name}"),
-                                                actions: <Widget>[IconButton(icon: Icon(Icons.highlight_off), onPressed: () async{ await AuthService().signOut();})],
-                                            ),
-                                body: Grossdata(user:user),
-                                    );
-                       }
-                       else
-                       {
-                           return  Scaffold(
-                              appBar: AppBar(
-                                                title: Text("Welcome ${userData.name}"),
-                                                actions: <Widget>[IconButton(icon: Icon(Icons.highlight_off), onPressed: () async{ await AuthService().signOut();})],
-                                            ),
-                              body: GrossList(),
-
-                                    );
-                       }
+     print(user);
+    return  StreamBuilder<UserData>(
+      stream: DatabaseService(uid: user.uid).userData,
+      builder: (context, snapshot) {
+        if(snapshot.hasData)
+        {
+          UserData dat = snapshot.data;
+          if(dat.cat=='RESIDENT')
+          {
+              return Resident();
+          }
+          else
+          {
+            return Volunteer();
+          }
+          
         }
-          ),
+        else
+        {
+          return SignUp(toggleView: toggleView,user: user);
+        }
+      }
     );
-  }
+}
 }

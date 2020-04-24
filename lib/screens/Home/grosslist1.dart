@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:prcolony/database/database.dart';
-import 'package:prcolony/screens/Home/card.dart';
+import 'package:prcolony/models/UserData.dart';
 import 'package:provider/provider.dart';
 import 'package:prcolony/models/gross.dart';
 import 'package:prcolony/screens/Home/Grosscard.dart';
 import 'package:prcolony/models/User.dart';
 import 'package:prcolony/Shared/loading.dart';
 
-class GrossList extends StatefulWidget {
+class GrossList1 extends StatefulWidget {
+
+  UserData user;
+  GrossList1({this.user});
+
   @override
-  _GrossListState createState() => _GrossListState();
+  _GrossList1State createState() => _GrossList1State();
 }
 
-class _GrossListState extends State<GrossList> {
+class _GrossList1State extends State<GrossList1> {
   @override
   Widget build(BuildContext context) {
 
-    final user = Provider.of<User>(context);
-    //print(gross.length);
-    
-    return  StreamBuilder<List<Gross>>(
-      stream: DatabaseService(uid: user.uid).reside,
-      builder: (context, snapshot) {
-        if(snapshot.hasData)
-        {
-         List<Gross> gross = snapshot.data;
+    final gross = Provider.of<List<Gross>>(context);
+    print(gross.length);
+
         return ListView.builder(
             itemCount: gross.length,
             itemBuilder: (context,index){
@@ -35,13 +33,9 @@ class _GrossListState extends State<GrossList> {
                 onDismissed: (direction) {
                     //deleteFromList(s);
           },
-                child: GrossCard0(gross: gross[index],index: index,)
+                child: GrossCard(gross: gross[index],index: index,user: widget.user),
                 );
             },
             );
-        }
-        return Loading();
-      }
-    );
   }
 }

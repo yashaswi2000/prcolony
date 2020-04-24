@@ -7,14 +7,14 @@ import 'package:prcolony/screens/Home/grosslist.dart';
 
 class DatabaseService {
   final String uid;
-
+  final String stre='4';
   DatabaseService({this.uid});
 
   final CollectionReference UsersCollection = Firestore.instance.collection('Users');
   final CollectionReference Grosslistcollection = Firestore.instance.collection('Gross');
 
 
-  Future UpdateGrosscollection(String name,String username,String street,String plot) async {
+  Future UpdateGrosscollection(String name,String username,String street,String plot,Timestamp time,String phone) async {
     try{
       await Grosslistcollection.document().setData({
         'uid' :uid,
@@ -22,6 +22,10 @@ class DatabaseService {
         'username':username,
         'street':street,
         'plot':plot,
+        'done':false,
+        'time':time,
+        'phone':phone,
+        'paid':false,
       });
       return true;
     }
@@ -31,6 +35,38 @@ class DatabaseService {
       return false;
     }
   }
+
+  Future UpdateDone(String name,String ident) async {
+    try{
+      await Grosslistcollection.document(ident).updateData({
+        'done':true,
+        'sentuser':name,
+      });
+      return true;
+    }
+    catch(e)
+    {
+        print(e.toString());
+      return false;
+    }
+  }
+
+   Future UpdatePaid(String name,String ident) async {
+    try{
+      await Grosslistcollection.document(ident).updateData({
+        'paid':true,
+        'paidmark':name,
+      });
+      return true;
+    }
+    catch(e)
+    {
+        print(e.toString());
+      return false;
+    }
+  }
+
+
 
 
   Future UpdateUsersCollection(String name, String phonenumber) async {
@@ -117,17 +153,40 @@ class DatabaseService {
   {
     return snapshot.documents.map((doc){
       return Gross(
+        did: doc.documentID,
         name: doc.data['name'] ?? '',
         username: doc.data['username'] ?? '',
         road: doc.data['street'] ?? '',
         plot: doc.data['plot'] ?? '',
+        time: doc.data['time'] ,
+        phone: doc.data['phone'] ?? '',
       );
     }).toList();
   }
 
    Stream<List<Gross>> get require {
-    return Grosslistcollection.snapshots().map(_grosslist);
+    return Grosslistcollection.where("done",isEqualTo: false).snapshots().map(_grosslist);
   }
+
+   Stream<List<Gross>> get reside {
+     print(this.uid);
+     return Grosslistcollection.where("uid",isEqualTo: uid).where("done",isEqualTo: false).snapshots().map(_grosslist);
+   }
+
+   Stream<List<Gross>> get residelogs {
+     print(this.uid);
+     return Grosslistcollection.where("uid",isEqualTo: uid).where("done",isEqualTo: true).where("paid",isEqualTo: true).snapshots().map(_grosslist);
+   }
+
+   Stream<List<Gross>> get completed {
+     print(this.uid);
+     return Grosslistcollection.where("done",isEqualTo: true).where("paid",isEqualTo: false).snapshots().map(_grosslist);
+   }
+
+   Stream<List<Gross>> get logs {
+     print(this.uid);
+     return Grosslistcollection.where("done",isEqualTo: true).where("paid",isEqualTo: true).snapshots().map(_grosslist);
+   }
 
   
 

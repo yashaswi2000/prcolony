@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prcolony/screens/Authenticate/googlelog.dart';
 import 'package:prcolony/screens/Authenticate/login.dart';
 import 'package:prcolony/screens/Authenticate/signup.dart';
 
@@ -19,7 +20,7 @@ class _AuthenticateState extends State<Authenticate> {
   Widget build(BuildContext context) {
     if(signed)
     {
-      return SignUp(toggleView: toggleView);
+      return Loging(toggleView: toggleView);
     }
     else
     {

@@ -8,12 +8,12 @@ import 'package:prcolony/screens/Home/Grosscard.dart';
 import 'package:prcolony/models/User.dart';
 import 'package:prcolony/Shared/loading.dart';
 
-class GrossList extends StatefulWidget {
+class Logres extends StatefulWidget {
   @override
-  _GrossListState createState() => _GrossListState();
+  _LogresState createState() => _LogresState();
 }
 
-class _GrossListState extends State<GrossList> {
+class _LogresState extends State<Logres> {
   @override
   Widget build(BuildContext context) {
 
@@ -21,7 +21,7 @@ class _GrossListState extends State<GrossList> {
     //print(gross.length);
     
     return  StreamBuilder<List<Gross>>(
-      stream: DatabaseService(uid: user.uid).reside,
+      stream: DatabaseService(uid: user.uid).residelogs,
       builder: (context, snapshot) {
         if(snapshot.hasData)
         {
