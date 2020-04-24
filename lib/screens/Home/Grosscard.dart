@@ -5,28 +5,40 @@ import 'package:prcolony/screens/Home/expandlist.dart';
 class GrossCard extends StatelessWidget {
 
   final Gross gross;
-  GrossCard({this.gross});
+  final int index;
+  GrossCard({this.gross,this.index});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 8.0),
+      padding: EdgeInsets.only(top: 0.0),
       child: Card(
-        margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 6.0),
+        margin: EdgeInsets.fromLTRB(10.0, 3.0, 10.0, 3.0),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(0.0),
           child: ListTile(
             onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (context) => Expand(gross: gross)));
             },
-            leading: Icon(Icons.shopping_cart),
-            title: Text("${gross.username} ,${gross.road},${gross.plot}."),
-            subtitle: Text(gross.name,
-            style: TextStyle(color: Colors.black),
+            title: Text("${index+1}) ${gross.username}",
+              style: TextStyle(fontWeight:FontWeight.bold,
+              fontSize: 22,
+              ),
+            ),
+            subtitle: Column(
+              children: <Widget>[
+                Text("Road-${gross.road},plot-${gross.plot}",
+                style: TextStyle(fontWeight:FontWeight.bold,
+                fontSize: 18,
+                ),
+                ),
+                Text(gross.time.toDate().toString()), 
+              ],
+            ),
+            //trailing: Text(gross.time.toString()),
           ),
       ),
         ),
-    )
     );
   }
 }

@@ -19,8 +19,23 @@ class _ExpandState extends State<Expand> {
         ),
         body: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(widget.gross.name),
-          ),
+              child: SelectableText(
+                widget.gross.name,
+                style: TextStyle(
+                  fontSize: 25.0,
+                  height: 1.5
+                ),
+                cursorColor: Colors.red,
+                  showCursor: true,
+                  toolbarOptions: ToolbarOptions(
+                  copy: true,
+                  selectAll: true,
+                  cut: false,
+                  paste: false
+                  ),
+                ),
+            ),
+          
     );
   }
 }

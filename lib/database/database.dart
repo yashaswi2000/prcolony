@@ -7,14 +7,14 @@ import 'package:prcolony/screens/Home/grosslist.dart';
 
 class DatabaseService {
   final String uid;
-
+  final String stre='4';
   DatabaseService({this.uid});
 
   final CollectionReference UsersCollection = Firestore.instance.collection('Users');
   final CollectionReference Grosslistcollection = Firestore.instance.collection('Gross');
 
 
-  Future UpdateGrosscollection(String name,String username,String street,String plot) async {
+  Future UpdateGrosscollection(String name,String username,String street,String plot,Timestamp time) async {
     try{
       await Grosslistcollection.document().setData({
         'uid' :uid,
@@ -22,6 +22,8 @@ class DatabaseService {
         'username':username,
         'street':street,
         'plot':plot,
+        'done':null,
+        'time':time,
       });
       return true;
     }
@@ -117,10 +119,12 @@ class DatabaseService {
   {
     return snapshot.documents.map((doc){
       return Gross(
+        did: doc.documentID,
         name: doc.data['name'] ?? '',
         username: doc.data['username'] ?? '',
         road: doc.data['street'] ?? '',
         plot: doc.data['plot'] ?? '',
+        time: doc.data['time'] ,
       );
     }).toList();
   }
@@ -128,6 +132,11 @@ class DatabaseService {
    Stream<List<Gross>> get require {
     return Grosslistcollection.snapshots().map(_grosslist);
   }
+
+   Stream<List<Gross>> get reside {
+     print(this.uid);
+     return Grosslistcollection.where("uid",isEqualTo: uid).where("done",isEqualTo: null ).snapshots().map(_grosslist);
+   }
 
   
 

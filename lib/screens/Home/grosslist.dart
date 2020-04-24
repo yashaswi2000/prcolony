@@ -14,19 +14,20 @@ class _GrossListState extends State<GrossList> {
   Widget build(BuildContext context) {
 
     final gross = Provider.of<List<Gross>>(context);
+    print(gross.length);
     
-    return ListView.builder(
-      itemCount: gross.length,
-      itemBuilder: (context,index){
-        return Dismissible(
-          key: Key(gross[index].username),
-          background: Container(color: Colors.grey),
-          onDismissed: (direction) {
-              //deleteFromList(s);
-    },
-          child: GrossCard(gross: gross[index])
-          );
+    return  ListView.builder(
+        itemCount: gross.length,
+        itemBuilder: (context,index){
+          return Dismissible(
+            key: Key(gross[index].username),
+            background: Container(color: Colors.grey),
+            onDismissed: (direction) {
+                //deleteFromList(s);
       },
-      );
+            child: GrossCard(gross: gross[index],index: index,)
+            );
+        },
+        );
   }
 }
