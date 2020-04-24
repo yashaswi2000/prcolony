@@ -26,6 +26,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   validators: ^2.0.0+1
+  keyboard_avoider: ^0.1.2
   firebase_auth: ^0.16.0
   cloud_firestore: ^0.13.5
   provider: ^4.0.5

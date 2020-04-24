@@ -51,8 +51,7 @@ TextFormField(
    
     labelText: 'mobile number:'
   ),
-   keyboardType: TextInputType.number,
-            
+   keyboardType: TextInputType.number,        
 ),
 SizedBox(
   height:20
