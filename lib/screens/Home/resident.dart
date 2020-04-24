@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:prcolony/database/database.dart';
+import 'package:prcolony/screens/Home/Reslist.dart';
 import 'package:prcolony/screens/Home/gross.dart';
 import 'package:prcolony/screens/Home/grosslist.dart';
 import 'package:prcolony/services/auth.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:prcolony/models/User.dart';
 import 'package:prcolony/models/UserData.dart';
 import 'package:prcolony/models/gross.dart';
+import 'package:prcolony/Shared/loading.dart';
 
 class Resident extends StatelessWidget {
   
@@ -21,6 +23,8 @@ class Resident extends StatelessWidget {
             child: StreamBuilder<UserData>(
               stream:  DatabaseService(uid: user.uid).userData,
                builder: (context,snapshot) {
+                 if(snapshot.hasData)
+                 {
                   UserData userData = snapshot.data;
                        print(userData.name);
                        return DefaultTabController(
@@ -28,7 +32,7 @@ class Resident extends StatelessWidget {
                                       child: Scaffold(
                                                   appBar: AppBar(
                                                                   title: Text("Welcome ${userData.name}"),
-                                                                  actions: <Widget>[IconButton(icon: Icon(Icons.highlight_off), onPressed: () async{ await AuthService().signOut();})],
+                                                                  actions: <Widget>[IconButton(icon: Icon(Icons.highlight_off), onPressed: () async{ await AuthService().signOutGoogle();})],
                                                                   bottom: TabBar(
                                                                                   tabs: [
                                                                                           Tab(icon: Icon(Icons.directions_car)),
@@ -38,8 +42,9 @@ class Resident extends StatelessWidget {
                                                                 ),
                                                   body: TabBarView(
                                                             children: [
+                                                                      //Icon(Icons.phone),
                                                                       GrossList(),
-                                                                      Icon(Icons.shopping_cart),
+                                                                      Logres(),
                                                                       ],
                                                                   ),
                                                   floatingActionButton: FloatingActionButton(onPressed: (){
@@ -50,6 +55,8 @@ class Resident extends StatelessWidget {
                                                   ),                
                                                     ),
                                                 );
+                 }
+                 return Loading();
                                           }
             ),
       

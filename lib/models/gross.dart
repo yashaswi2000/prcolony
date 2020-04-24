@@ -7,6 +7,7 @@ class Gross{
   final String road;
   final String plot;
   final Timestamp time;
+  final String phone;
 
-  Gross({this.did,this.name,this.username,this.road,this.plot,this.time});
+  Gross({this.did,this.name,this.username,this.road,this.plot,this.time,this.phone});
 }

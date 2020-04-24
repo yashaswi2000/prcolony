@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:prcolony/database/database.dart';
 import 'package:prcolony/screens/Home/gross.dart';
 import 'package:prcolony/screens/Home/grosslist.dart';
+import 'package:prcolony/screens/Home/grosslist1.dart';
+import 'package:prcolony/screens/Home/grosslist2.dart';
+import 'package:prcolony/screens/Home/grosslist3.dart';
 import 'package:prcolony/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:prcolony/models/User.dart';
@@ -24,12 +27,28 @@ class Volunteer extends StatelessWidget {
                builder: (context,snapshot) {
                   UserData userData = snapshot.data;
                        print(userData.name);
-                       return  Scaffold(
-                              appBar: AppBar(
-                                                title: Text("Welcome ${userData.name}"),
-                                                actions: <Widget>[IconButton(icon: Icon(Icons.highlight_off), onPressed: () async{ await AuthService().signOut();})],
-                                            ),
-                              body: GrossList(),
+                       return  DefaultTabController(
+                                  length: 3,
+                                                child: Scaffold(
+                                appBar: AppBar(
+                                                  title: Text("Welcome ${userData.name}"),
+                                                  actions: <Widget>[IconButton(icon: Icon(Icons.person), onPressed: () async{ await AuthService().signOutGoogle();})],
+                                                  bottom: TabBar(
+                                                                  tabs: [
+                                                                  Tab(icon: Icon(Icons.directions_car)),
+                                                                  Tab(icon: Icon(Icons.directions_transit)),
+                                                                  Tab(icon: Icon(Icons.directions)),
+                                                                        ],
+                                                                ),
+                                              ),
+                                body: TabBarView(
+                                            children: [
+                                              GrossList1(user: userData),
+                                              GrossList2(user: userData),
+                                              GrossList3(user: userData),
+                                                      ],
+                                                ), 
+                         ),
                        );
                                           }
             ),

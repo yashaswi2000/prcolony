@@ -134,7 +134,7 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
                 FlatButton(
                     
                     onPressed:()async{
-                      if(code.isNotEmpty && code.length==6){
+                      if(true){
                             //AuthService().signInWithOTP(code, widget.verificationId,widget.phonenumber,'ass');
                           setState(() {
                             loading=true;
@@ -143,7 +143,7 @@ class _PhoneverificationpageScreenState extends State<Phoneverificationpage> {
                                             verificationId: widget.verificationId,
                                             smsCode: code);
                                             print(widget.verificationId.toString());
-                                            //print(authCreds);
+                                            print(authCreds);
                                   AuthResult result =  await FirebaseAuth.instance.signInWithCredential(authCreds);
                                   print(result);
                                   if(result.user!=null)

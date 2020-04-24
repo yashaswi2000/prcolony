@@ -4,12 +4,12 @@ import 'package:prcolony/models/UserData.dart';
 import 'package:prcolony/models/gross.dart';
 import 'package:prcolony/screens/Home/expandlist.dart';
 
-class GrossCard extends StatelessWidget {
+class GrossCard2 extends StatelessWidget {
 
   final Gross gross;
   final int index;
   UserData user;
-  GrossCard({this.gross,this.index,this.user});
+  GrossCard2({this.gross,this.index,this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +32,10 @@ class GrossCard extends StatelessWidget {
                  },
               ),
               FlatButton(
-                child: Text('MarkDone'),
+                child: Text('MarkPaid'),
                 onPressed: () async { 
                     DatabaseService data = DatabaseService(uid: user.uid);
-                    dynamic result = await data.UpdateDone(user.name, gross.did);
+                    dynamic result = await data.UpdatePaid(user.name, gross.did);
                  },
               ),
             ],

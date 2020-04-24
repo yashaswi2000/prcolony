@@ -53,7 +53,7 @@ class _GrossdataState extends State<Grossdata> {
                         print(time);
                         DatabaseService data  =  DatabaseService(uid: widget.user.uid);
                         UserData use1 = await data.getuserdocument();
-                        dynamic res = await data.UpdateGrosscollection(this.listdata,use1.name,use1.street,use1.plot,time);
+                        dynamic res = await data.UpdateGrosscollection(this.listdata,use1.name,use1.street,use1.plot,time,use1.phone);
                         if(res)
                         {
                           print("sucess");

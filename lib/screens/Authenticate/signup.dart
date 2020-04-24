@@ -7,6 +7,7 @@ import 'package:prcolony/services/auth.dart';
 import 'package:prcolony/models/User.dart';
 import 'package:validators/validators.dart' as validator;
 import 'dart:ui';
+import 'package:prcolony/database/database.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
 
 void main() {
@@ -15,7 +16,8 @@ void main() {
 
 class SignUp extends StatefulWidget {
   final Function toggleView;
-  SignUp({this.toggleView});
+  User user;
+  SignUp({this.toggleView,this.user});
 
   @override
   _SignUpState createState() => _SignUpState();
@@ -331,8 +333,11 @@ final ScrollController _scrollController = ScrollController();
                                     setState(() {
                                       loading = true;
                                     });
-                                    await verifyPhone(this.phoneNo);
-                                    print(this.verificationId.toString());
+                                  String uid1 = widget.user.uid;
+                                  DatabaseService data = DatabaseService(uid: uid1);
+                                  bool res = await data.UpdateUserDetails(this.name1, this.phoneNo, this.road, this.plot, this.dropdownValue);
+                                    //await verifyPhone(this.phoneNo);
+                                    //print(this.verificationId.toString());
                                   }),
                                   
                             ),
@@ -613,8 +618,12 @@ final ScrollController _scrollController = ScrollController();
                                   setState(() {
                                     loading = true;
                                   });
-                                  await verifyPhone(this.phoneNo);
-                                  print(this.verificationId.toString());
+                                  String uid1 = widget.user.uid;
+                                  DatabaseService data = DatabaseService(uid: uid1);
+                                  bool res = await data.UpdateUserDetails(this.name1, this.phoneNo, this.road, this.plot, this.dropdownValue);
+
+                                  // await verifyPhone(this.phoneNo);
+                                  // print(this.verificationId.toString());
                                 }),
                           ),
                         ]),
@@ -634,53 +643,63 @@ final ScrollController _scrollController = ScrollController();
   
 
 
-  Future<void> verifyPhone(phoneNo) async {
-    final PhoneVerificationCompleted verified = (AuthCredential authResult) {
-      AuthService().signIn(authResult);
-    };
+  // Future<void> verifyPhone(phoneNo) async {
+  //   final PhoneVerificationCompleted verified = (AuthCredential authResult) async{
+  //     AuthService().signIn(authResult);
+  //     // if(result.user!=null)
+  //     //                             {
+  //     //                               print("ass");
+  //     //                               String uid1 = result.user.uid;
+  //     //                             DatabaseService data = DatabaseService(uid: uid1);
+  //     //                             bool res = await data.UpdateUserDetails(this.name1, this.phoneNo, this.road, this.plot, this.dropdownValue);
+                                    
+  //     //                               //Navigator.pop(context,result.user);
+  //     //                             }
+  //   };
 
-    final PhoneVerificationFailed verificationfailed =
-        (AuthException authException) {
-      print('${authException.message}');
-    };
+  //   final PhoneVerificationFailed verificationfailed =
+  //       (AuthException authException) {
+  //     print('${authException.message}');
+  //   };
 
-    final PhoneCodeSent smsSent = (String verId, [int forceResend]) async {
-      this.verificationId = verId;
-      setState(() {
-        this.codeSent = true;
-        this.loading = false;
-      });
+  //   final PhoneCodeSent smsSent = (String verId, [int forceResend]) async {
+  //     this.verificationId = verId;
+  //     setState(() {
+  //       this.codeSent = true;
+  //       this.loading = false;
+  //     });
 
-      final result = await Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Phoneverificationpage(
-                  sent: this.codeSent,
-                  verificationId: this.verificationId.toString(),
-                  phonenumber: this.phoneNo,
-                  name: this.name1,
-                  plot: this.plot,
-                  road: this.road,
-                  cat: this.dropdownValue)));
-    };
+  //   //   final result = await Navigator.push(
+  //   //       context,
+  //   //       MaterialPageRoute(
+  //   //           builder: (context) => Phoneverificationpage(
+  //   //               sent: this.codeSent,
+  //   //               verificationId: this.verificationId.toString(),
+  //   //               phonenumber: this.phoneNo,
+  //   //               name: this.name1,
+  //   //               plot: this.plot,
+  //   //               road: this.road,
+  //   //               cat: this.dropdownValue)));
+  // };
 
-    final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
-      setState(() {
-        this.codeSent = true;
-      });
-      this.verificationId = verId;
-    };
+  //   final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
+  //     setState(() {
+  //       this.codeSent = true;
+  //     });
+  //     this.verificationId = verId;
+  //   };
 
-    try {
-      await FirebaseAuth.instance.verifyPhoneNumber(
-          phoneNumber: '+91' + phoneNo,
-          timeout: const Duration(seconds: 60),
-          verificationCompleted: verified,
-          verificationFailed: verificationfailed,
-          codeSent: smsSent,
-          codeAutoRetrievalTimeout: autoTimeout);
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+  //   try {
+  //     await FirebaseAuth.instance.verifyPhoneNumber(
+  //         phoneNumber: '+91' + phoneNo,
+  //         timeout: const Duration(seconds: 60),
+  //         verificationCompleted: verified,
+  //         verificationFailed: verificationfailed,
+  //         codeSent: smsSent,
+  //         codeAutoRetrievalTimeout: autoTimeout
+  //         );
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
 }
