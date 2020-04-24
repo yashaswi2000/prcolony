@@ -14,6 +14,7 @@ class _GrossListState extends State<GrossList> {
   Widget build(BuildContext context) {
 
     final gross = Provider.of<List<Gross>>(context);
+    print(gross.length);
     
     return  ListView.builder(
         itemCount: gross.length,
