@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:prcolony/services/auth.dart';
 import 'package:prcolony/screens/Authenticate/phoneauth.dart';
 import 'package:prcolony/Shared/loading.dart';
+import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 
 
 class Loging extends StatefulWidget {
@@ -20,6 +21,14 @@ class _LogingState extends State<Loging> {
   String phone,verificationId;
   String street='';
   bool codeSent = false;
+  //Widget login = const Text(
+ //   "Sign in with Google",
+  //  style: TextStyle(
+   //   color: Colors.white,
+   //   fontFamily: "OpenSans-Regular",
+   //   fontSize: 23,
+   // ),
+ // );
 
 
   @override
@@ -35,37 +44,43 @@ class _LogingState extends State<Loging> {
               onPressed: (){widget.toggleView();}, icon: Icon(Icons.person), label: Text("Register"))
           ],
         ),
-       
+       resizeToAvoidBottomInset: false,
        body :   Container(
+        
          padding : EdgeInsets.fromLTRB(20, 30, 20, 30),
          child : Column(
-           
+          // mainAxisAlignment: MainAxisAlignment.center,
            children: <Widget>[
-             SizedBox(height:10),
-              SizedBox(
+          
+             SizedBox(height:30),
+              Container(
                 height :150,
+                margin :EdgeInsets.fromLTRB(30, 10, 30, 10),
            child :
-            Image.asset('assets/images/user.png'),
+           Image.asset('assets/images/user.png'),
          ),
 SizedBox(
-  height:20
+  height:50
 ),
-RaisedButton(
-    color :Colors.blue,
-            child : Text("login",style: TextStyle(color: Colors.white,fontSize: 18),),
-            onPressed:() async {
 
-              setState(() {
-                                  loading = true;
-                                });
-                               await AuthService().signInWithGoogle();
-            },
-               
-            ),
-           ]
+  Container(
+    margin :EdgeInsets.fromLTRB(30, 10, 30, 10),
+        child: GoogleSignInButton(
+                onPressed:() async {
+                  setState(() {
+                            loading = true;
+  
+                              });
+                 await AuthService().signInWithGoogle();
+  
+                },
+     ),
+   ),
+  ]
+),
         )
-       )
-    ),);
+       ),
+    );
   }
 
    Future<void> verifyPhone(phoneNo) async {

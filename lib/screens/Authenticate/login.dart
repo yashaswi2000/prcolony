@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:prcolony/services/auth.dart';
 import 'package:prcolony/screens/Authenticate/phoneauth.dart';
 import 'package:prcolony/Shared/loading.dart';
-import 'package:keyboard_avoider/keyboard_avoider.dart';
+
 
 class Login extends StatefulWidget {
 
@@ -38,26 +38,25 @@ class _LoginState extends State<Login> {
        
        body :   Container(
          padding : EdgeInsets.fromLTRB(20, 30, 20, 30),
-         child :SingleChildScrollView(
-                    child: Column(
-             
-             children: <Widget>[
-               SizedBox(height:10),
-                SizedBox(
-                  height :150,
-             child :
-              Image.asset('assets/images/user.png'),
-           ),
+         child : Column(
+           
+           children: <Widget>[
+             SizedBox(height:10),
+              SizedBox(
+                height :150,
+           child :
+            Image.asset('assets/images/user.png'),
+         ),
 TextFormField(
   decoration: InputDecoration(
     icon : Icon(Icons.phone,
-                   color: Colors.green,
-                 ),
+                 color: Colors.green,
+               ),
      border:OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.red,
-                                width: 5.0),
-                          ) ,
+                          borderSide: BorderSide(
+                              color: Colors.red,
+                              width: 5.0),
+                        ) ,
    
     labelText: 'mobile number:'
   ),
@@ -73,19 +72,18 @@ SizedBox(
 ),
 RaisedButton(
     color :Colors.blue,
-              child : Text("login",style: TextStyle(color: Colors.white,fontSize: 18),),
-              onPressed:() async {
+            child : Text("login",style: TextStyle(color: Colors.white,fontSize: 18),),
+            onPressed:() async {
 
-                setState(() {
-                                    loading = true;
-                                  });
-                                 await verifyPhone(this.phone);
-              },
-                 
-              ),
-             ]
-        ),
-         )
+              setState(() {
+                                  loading = true;
+                                });
+                               await verifyPhone(this.phone);
+            },
+               
+            ),
+           ]
+        )
        )
     ),);
   }
