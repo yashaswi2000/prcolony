@@ -28,21 +28,29 @@ class _GrossList3State extends State<GrossList3> {
             stream: DatabaseService(uid:widget.user.uid).userData,
             builder: (context, snapshot) {
               final gross = Provider.of<List<Gross>>(context);
-              print(gross.length);
 
-              return ListView.builder(
-                  itemCount: gross.length,
-                  itemBuilder: (context,index){
-                    return Dismissible(
-                      key: Key(gross[index].username),
-                      background: Container(color: Colors.grey),
-                      onDismissed: (direction) {
-                          //deleteFromList(s);
-                },
-                      child: GrossCard3(gross: gross[index],index: index,user: widget.user),
-                      );
-                  },
-                  );
+
+              return StreamBuilder<List<Gross>>(
+                stream: DatabaseService().logs,
+                builder: (context, snapshot) {
+                  if(snapshot.hasData) {
+                    List<Gross> gross = snapshot.data;
+                    print(gross.length);
+                    return ListView.builder(
+                      itemCount: gross.length,
+                      itemBuilder: (context, index) {
+                        return GrossCard3(gross: gross[index],
+                            index: index,
+                            user: widget.user);
+                      },
+                    );
+                  }
+                  else
+                    {
+                      return Loading();
+                    }
+                }
+              );
             }
           ),
         );

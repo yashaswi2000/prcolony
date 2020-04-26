@@ -21,21 +21,27 @@ class _GrossList1State extends State<GrossList1> {
   @override
   Widget build(BuildContext context) {
 
-    final gross = Provider.of<List<Gross>>(context);
-    print(gross.length);
+    //final gross = Provider.of<List<Gross>>(context);
 
-        return ListView.builder(
-            itemCount: gross.length,
-            itemBuilder: (context,index){
-              return Dismissible(
-                key: Key(gross[index].username),
-                background: Container(color: Colors.grey),
-                onDismissed: (direction) {
-                    //deleteFromList(s);
-          },
-                child: GrossCard(gross: gross[index],index: index,user: widget.user),
-                );
-            },
-            );
+
+        return StreamBuilder<List<Gross>>(
+          stream: DatabaseService(stre: widget.user.street).require,
+          builder: (context, snapshot) {
+            if(snapshot.hasData) {
+              List<Gross> gross = snapshot.data;
+              print(gross.length);
+              return ListView.builder(
+                itemCount: gross.length,
+                itemBuilder: (context, index) {
+                  return GrossCard(
+                      gross: gross[index], index: index, user: widget.user);
+                },
+              );
+            }
+            else{
+              return Loading();
+            }
+          }
+        );
   }
 }

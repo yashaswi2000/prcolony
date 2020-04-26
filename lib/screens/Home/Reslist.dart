@@ -29,14 +29,7 @@ class _LogresState extends State<Logres> {
         return ListView.builder(
             itemCount: gross.length,
             itemBuilder: (context,index){
-              return Dismissible(
-                key: Key(gross[index].username),
-                background: Container(color: Colors.grey),
-                onDismissed: (direction) {
-                    //deleteFromList(s);
-          },
-                child: GrossCard0(gross: gross[index],index: index,)
-                );
+              return GrossCard0(gross: gross[index],index: index,);
             },
             );
         }

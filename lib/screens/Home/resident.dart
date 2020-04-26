@@ -10,9 +10,42 @@ import 'package:prcolony/models/User.dart';
 import 'package:prcolony/models/UserData.dart';
 import 'package:prcolony/models/gross.dart';
 import 'package:prcolony/Shared/loading.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
-class Resident extends StatelessWidget {
-  
+class Resident extends StatefulWidget {
+  User user;
+  Resident({this.user});
+
+  @override
+  _ResidentState createState() => _ResidentState();
+}
+
+class _ResidentState extends State<Resident> {
+  FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+
+@override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) {
+        print('on launch $message');
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.getToken().then((token) async {
+      DatabaseService data = DatabaseService(uid: widget.user.uid);
+      await data.UpdateTokencollection(token);
+      print(token);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -30,13 +63,15 @@ class Resident extends StatelessWidget {
                        return DefaultTabController(
                                       length: 2,
                                       child: Scaffold(
+                                        backgroundColor: Colors.grey,
                                                   appBar: AppBar(
-                                                                  title: Text("Welcome ${userData.name}"),
-                                                                  actions: <Widget>[IconButton(icon: Icon(Icons.highlight_off), onPressed: () async{ await AuthService().signOutGoogle();})],
+                                                     backgroundColor: Colors.black54,
+                                                                  title: Text("${userData.name}"),
+                                                                  actions: <Widget>[FlatButton.icon(label: Text("Logout",style: TextStyle(color: Colors.white)),icon: Icon(Icons.power_settings_new,color: Colors.white,), onPressed: () async{ await AuthService().signOutGoogle();})],
                                                                   bottom: TabBar(
                                                                                   tabs: [
-                                                                                          Tab(icon: Icon(Icons.directions_car)),
-                                                                                          Tab(icon: Icon(Icons.directions_transit)),
+                                                                                          Tab(icon: Icon(Icons.local_grocery_store),text: "Orders",),
+                                                                                          Tab(icon: Icon(Icons.airport_shuttle),text:"On the way"),
                                                                                         ],
                                                                                 ),
                                                                 ),
@@ -47,12 +82,15 @@ class Resident extends StatelessWidget {
                                                                       Logres(),
                                                                       ],
                                                                   ),
-                                                  floatingActionButton: FloatingActionButton(onPressed: (){
-                                                    Navigator.push(context,MaterialPageRoute(builder: (context) => Grossdata(user:user)));
-
-                                                  },
-                                                  child: Icon(Icons.add),
-                                                  ),                
+                                                  floatingActionButton: FloatingActionButton(
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) =>
+                                        Grossdata(user: user)));
+                              },
+                              child: Icon(Icons.add),
+                            ),
+                            floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
                                                     ),
                                                 );
                  }

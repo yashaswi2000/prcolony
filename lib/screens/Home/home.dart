@@ -5,6 +5,7 @@ import 'package:prcolony/database/database.dart';
 import 'package:prcolony/screens/Authenticate/signup.dart';
 import 'package:prcolony/screens/Home/gross.dart';
 import 'package:prcolony/screens/Home/grosslist.dart';
+import 'package:prcolony/screens/Home/moniter.dart';
 import 'package:prcolony/screens/Home/resident.dart';
 import 'package:prcolony/screens/Home/volunteer.dart';
 import 'package:prcolony/services/auth.dart';
@@ -41,18 +42,23 @@ class _HomeState extends State<Home> {
           UserData dat = snapshot.data;
           if(dat.cat=='RESIDENT')
           {
-              return Resident();
+              return Resident(user:user);
+          }
+          else if(dat.cat=='VOLUNTEER')
+          {
+            return Moniter(user:user);
           }
           else
           {
-            return Volunteer();
+            return Volunteer(user:user);
           }
           
         }
-        else
+        else if(snapshot.hasError)
         {
           return SignUp(toggleView: toggleView,user: user);
         }
+        return Loading();
       }
     );
 }

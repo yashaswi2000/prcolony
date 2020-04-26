@@ -23,26 +23,33 @@ class _GrossList2State extends State<GrossList2> {
   Widget build(BuildContext context) {
 
         return StreamProvider<List<Gross>>.value(
-                  value: DatabaseService().completed,
+                  value: DatabaseService(needuser:widget.user.name).completed,
                   child: StreamBuilder<UserData>(
             stream: DatabaseService(uid:widget.user.uid).userData,
             builder: (context, snapshot) {
-              final gross = Provider.of<List<Gross>>(context);
-              print(gross.length);
+              //final gross = Provider.of<List<Gross>>(context);
 
-              return ListView.builder(
-                  itemCount: gross.length,
-                  itemBuilder: (context,index){
-                    return Dismissible(
-                      key: Key(gross[index].username),
-                      background: Container(color: Colors.grey),
-                      onDismissed: (direction) {
-                          //deleteFromList(s);
-                },
-                      child: GrossCard2(gross: gross[index],index: index,user: widget.user),
-                      );
-                  },
-                  );
+              return StreamBuilder<List<Gross>>(
+                stream: DatabaseService(needuser:widget.user.name).completed,
+                builder: (context, snapshot) {
+                  if(snapshot.hasData) {
+                    List<Gross> gross = snapshot.data;
+                    print(gross.length);
+                    return ListView.builder(
+                      itemCount: gross.length,
+                      itemBuilder: (context, index) {
+                        return GrossCard2(gross: gross[index],
+                            index: index,
+                            user: widget.user);
+                      },
+                    );
+                  }
+                  else
+                    {
+                      return Loading();
+                    }
+                }
+              );
             }
           ),
         );
