@@ -1,3 +1,6 @@
+@JS()
+library main1;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:prcolony/Shared/loading.dart';
@@ -14,6 +17,22 @@ import 'package:prcolony/models/User.dart';
 import 'package:prcolony/models/UserData.dart';
 import 'package:prcolony/models/gross.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'dart:js_util' as ju;
+
+
+import 'package:js/js.dart';
+
+@JS()
+class Promise<T> {
+  external Promise(void executor(void resolve(T result), Function reject));
+  external Promise then(void onFulfilled(T result), [Function onRejected]);
+}
+
+
+@JS()
+external Promise message();
+
+
 
 class Volunteer extends StatefulWidget {
   User user;
@@ -24,29 +43,35 @@ class Volunteer extends StatefulWidget {
 }
 
 class _VolunteerState extends State<Volunteer> {
-FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+// FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
 
 @override
   void initState() {
     super.initState();
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) {
-        print('on message $message');
-      },
-      onResume: (Map<String, dynamic> message) {
-        print('on resume $message');
-      },
-      onLaunch: (Map<String, dynamic> message) {
-        print('on launch $message');
-      },
-    );
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(sound: true, badge: true, alert: true));
-    _firebaseMessaging.getToken().then((token) async {
+
+    ju.promiseToFuture(message()).then((token) async {
       DatabaseService data = DatabaseService(uid: widget.user.uid);
-      await data.UpdateTokencollection(token);      
-      print(token);
+      await data.UpdateTokencollection(token);
+        print(token);
     });
+//     _firebaseMessaging.configure(
+//       onMessage: (Map<String, dynamic> message) {
+//         print('on message $message');
+//       },
+//       onResume: (Map<String, dynamic> message) {
+//         print('on resume $message');
+//       },
+//       onLaunch: (Map<String, dynamic> message) {
+//         print('on launch $message');
+//       },
+//     );
+//     _firebaseMessaging.requestNotificationPermissions(
+//         const IosNotificationSettings(sound: true, badge: true, alert: true));
+//     _firebaseMessaging.getToken().then((token) async {
+//       DatabaseService data = DatabaseService(uid: widget.user.uid);
+//       await data.UpdateTokencollection(token);      
+//       print(token);
+//     });
   }
 
   @override

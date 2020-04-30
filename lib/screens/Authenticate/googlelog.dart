@@ -4,6 +4,7 @@ import 'package:prcolony/services/auth.dart';
 import 'package:prcolony/screens/Authenticate/phoneauth.dart';
 import 'package:prcolony/Shared/loading.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+import 'dart:js' as js;
 
 
 class Loging extends StatefulWidget {
@@ -66,6 +67,7 @@ SizedBox(
           child: GoogleSignInButton(
                   darkMode: true,
                   onPressed:() async {
+                    //js.context.callMethod('alert', ['Hello, world!']);
                     setState(() {
                               loading = true;
   

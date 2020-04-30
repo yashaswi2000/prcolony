@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+  <meta name="google-signin-client_id" content="963253823504-0vb323e4045moq2meat1jkaafnpp8acs.apps.googleusercontent.com">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="prcolony">
+  
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+
+  <title>prcolony</title>
+  <link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="manifest" href="manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+ 
+</head>
+<body>
+  <!-- This script installs service_worker.js to provide PWA functionality to
+       application. For more information, see:
+       https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js');
+      });
+    }
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-messaging.js"></script>
+  <!-- <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-messaging.js"></script> -->
+  <!-- <script src="/__/firebase/init.js"></script> -->
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyCIMamP56nGO5G3nytEFAN-ZlSg8KgYz40",
+      authDomain: "project-1-96a29.firebaseapp.com",
+      databaseURL: "https://project-1-96a29.firebaseio.com",
+      projectId: "project-1-96a29",
+      storageBucket: "project-1-96a29.appspot.com",
+      messagingSenderId: "527451239974",
+      appId: "1:527451239974:web:86b536de8f4e2a7accd8e7",
+      measurementId: "G-T87N18SNP9"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    var db = firebase.firestore();
+    const messaging = firebase.messaging();
+    messaging.usePublicVapidKey("BA2k5_y7dIKDCHF0Ch3VHZpz4oOyB5xtQKzJIUH7vz8XUR3ChQ8NEXl3jh0f1UchpCGOAsNsdvMuwHCVIkZ7SJg");
+    messaging.requestPermission().then(
+      function() {
+        console.log('have per head');
+        return messaging.getToken();
+      }
+    ).then(function(token) {
+      console.log(token);
+    }).catch(function(err) {
+      console.log(err);
+    })
+
+    messaging.onMessage(payload => {
+    console.log("Message received. ", payload);
+    const { title, ...options } = payload.notification;
+    });
+    
+
+    //messaging.usePublicVapidKey('BA2k5_y7dIKDCHF0Ch3VHZpz4oOyB5xtQKzJIUH7vz8XUR3ChQ8NEXl3jh0f1UchpCGOAsNsdvMuwHCVIkZ7SJg');
+  </script>
+  <script src="mess.js" type="application/javascript"></script>
+
+  <script src="main.dart.js" type="application/javascript"></script>
+
+</body>
+</html>

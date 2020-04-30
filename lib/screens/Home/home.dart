@@ -34,12 +34,23 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
      print(user);
+    //  return Scaffold(
+    //           appBar: AppBar(
+    //             title: Text("welcome"),
+    //           ),
+    //           body: Text(user.uid.toString()),
+    //         );
     return  StreamBuilder<UserData>(
       stream: DatabaseService(uid: user.uid).userData,
       builder: (context, snapshot) {
         if(snapshot.hasData)
         {
           UserData dat = snapshot.data;
+          // return Scaffold(
+          //   appBar: AppBar(
+          //     title: Text(dat.name),
+          //   ),
+          // );
           if(dat.cat=='RESIDENT')
           {
               return Resident(user:user);
